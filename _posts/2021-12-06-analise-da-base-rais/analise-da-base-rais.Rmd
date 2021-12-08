@@ -11,13 +11,40 @@ output:
     self_contained: false
 ---
 
-
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-Distill is a publication format for scientific and technical writing, native to the web.
+Nessa análise estamos interessados em responder a seguinte pergunta:
 
-Learn more about using Distill at <https://rstudio.github.io/distill>.
+"Quanto ganha um cientista de dados no Brasil?"
 
+Para isso vamos utilizar a base da RAIS anonimizada.
+
+# Acessando os dados da RAIS
+
+Vamos utilizar o datalake da [iniciativa Base dos Dados](https://basedosdados.org/).
+
+
+```{r message=FALSE, warning=FALSE}
+library("bigrquery")
+library("dplyr")
+```
+
+O código abaixo carrega as primeiras 5 linhas da tabela de microdados
+
+```{r, cache=TRUE}
+bigrquery::bq_auth("rochaunit02@gmail.com")
+
+conexao <- dbConnect(
+  bigquery(),
+  project = "basedosdados",
+  dataset = "br_me_rais",
+  billing = "cursor-cienciadedados"
+)
+
+primeiras_cinco_linhas <- collect(head(select(tbl(conexao, "microdados_vinculos"), everything()),5))
+
+knitr::kable(primeiras_cinco_linhas)
+```
 
