@@ -43,8 +43,57 @@ conexao <- dbConnect(
   billing = "cursor-cienciadedados"
 )
 
-primeiras_cinco_linhas <- collect(head(select(tbl(conexao, "microdados_vinculos"), everything()),5))
+primeiras_cinco_linhas_com_pipe <- tbl(conexao, "microdados_vinculos") %>% 
+  select(everything()) %>% 
+  head(5) %>% 
+  collect()
 
-knitr::kable(primeiras_cinco_linhas)
+knitr::kable(primeiras_cinco_linhas_com_pipe)
 ```
+A base de dados que queremos analisar é a de pessoas que (potencialmente) trabalham com ciências de dados. Existe um Código Brasileiro de Ocupaçòes (CBO), que tem o cadastro de todas as ocupaçòes formais no Braisl. Vamos pegar alguns códigos que são relacionados a ciencia de dados e filtrar a base da RAIS para obter os dados dessas pessoas.
 
+Pergunta principal da pesquisa:
+
+"Pessoas que trabalham com Ciências de Dados ganham quanto?)
+
+```{r}
+codigos_cbo <- c( "252515", "252525", "211110", 
+                  # pesquisa/cientista
+                  "211205", "211210","411035", "211210", "131120","211215" 
+                  # ocupações estatísticas
+)
+
+tabela_microdados_vinculos <- tbl(conexao, "microdados_vinculos") %>% 
+  filter(
+    ano>=2013,
+    cbo_2002 %in% codigos_cbo) %>% 
+  head(5000)
+
+tabela_microdados_vinculos <- collect(tabela_microdados_vinculos)
+
+View(tabela_microdados_vinculos)
+
+```
+Perguntas de pesquisa:
+
+- quanbto ganha um pesssoa que trabalha com ciência de dados?
+- quantoi o valor varia com o tempo?
+- quanto o valor varia regionalmente?
+- quanto o valor varia por caracteríssticas da pessoas?
+  - genero
+  - Raça/cor
+  - idade
+  
+```{r}
+
+library(ggplot2)
+
+tabelas_medias <- tabela_microdados_vinculos %>% 
+  group_by(ano) %>% 
+  summarise(media_salario = mean (valor_remuneracao_media))
+
+ggplot(tabelas_medias) + 
+  aes(x=ano, y = media_salario) +
+  geom_col()
+```
+  

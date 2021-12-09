@@ -1975,7 +1975,31 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </tbody>
 </table>
 </div>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<p>A base de dados que queremos analisar é a de pessoas que (potencialmente) trabalham com ciências de dados. Existe um Código Brasileiro de Ocupaçòes (CBO), que tem o cadastro de todas as ocupaçòes formais no Braisl. Vamos pegar alguns códigos que são relacionados a ciencia de dados e filtrar a base da RAIS para obter os dados dessas pessoas.</p>
+<p>Pergunta principal da pesquisa:</p>
+<p>"Pessoas que trabalham com Ciências de Dados ganham quanto?)</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<p>Perguntas de pesquisa:</p>
+<ul>
+<li>quanbto ganha um pesssoa que trabalha com ciência de dados?</li>
+<li>quantoi o valor varia com o tempo?</li>
+<li>quanto o valor varia regionalmente?</li>
+<li>quanto o valor varia por caracteríssticas da pessoas?
+<ul>
+<li>genero</li>
+<li>Raça/cor</li>
+<li>idade</li>
+</ul></li>
+</ul>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>Aesthetic mapping: 
+* `x` -&gt; `ano`
+* `y` -&gt; `media_salario`
+* ``  -&gt; `.`</code></pre>
+</div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
